@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+
+import sys
+sys.path.insert(0, "/usr/lib/k4")
+
+import k4
+import re
+
+idPattern = re.compile(r'<@!?(\d+?)>')
+
+inp = sys.stdin.read()
+client = k4.Client()
+
+uid = client.context.userId
+match = idPattern.search(inp)
+if match is None:
+    print("Please specify a recipient!")
+    sys.exit(2)
+    
+mentionId = match.group(1)
+
+if mentionId == uid:
+    print("<:blobnomcookie:341048394816684032>  |  **You kept the cookie for yourself!**")
+else:
+    print("<:blobnomcookie:341048394816684032>  |  **<@{}> has given <@{}> a cookie 🍪**".format(uid, mentionId))
